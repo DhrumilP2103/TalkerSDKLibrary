@@ -12,7 +12,6 @@ import AWSCognitoIdentityProvider
 import AWSMobileClientXCF
 import SocketIO
 import AVFoundation
-import TalkerSDKLibrary
 
 class AppData {
     static var shared = AppData()
@@ -34,13 +33,13 @@ public class Talker {
     private var webRTCClient: WebRTCClient?
     private var signalingClient: SignalingClient?
     
-    var isFirstTimeLogin = false
+    public var isFirstTimeLogin = false
     var errorCount = 0
     var delegate: EventListnerDelegate?
     var talker_database = Talker_Database()
     /// Registers a new user with the specified name.
     /// Calls the completion handler with the registration status and any error encountered.
-    func register(name: String, completionHandler: @escaping ((Bool, String) -> Void)) {
+    public func register(name: String, completionHandler: @escaping ((Bool, String) -> Void)) {
         let isFirstTime = UserDefaults.standard.value(forKey: "isFirstTime")
         
         if (isFirstTime != nil) != true {
@@ -70,7 +69,7 @@ public class Talker {
     
     /// Login the user with the specified userId.
     /// Calls the completion handler with the login status and any error encountered.
-    func login(userId: String, completionHandler: @escaping ((Bool, String) -> Void)) {
+    public func login(userId: String, completionHandler: @escaping ((Bool, String) -> Void)) {
         self.set_current_user (userID: userId) { status in
             if status {
                 self.awsLogin() { status, error in
@@ -89,14 +88,14 @@ public class Talker {
     }
     
     /// Logout the current user from AWS Login.
-    func logOut() {
+    public func logOut() {
         AWSMobileClient.default().signOut()
         print("Logout Successs")
     }
     
     /// Establishes a connection for WebRTC and signaling, setting up audio recording and WebRTC offer.
     /// Calls the completion handler with the connection status.
-    func establishConnection(completionHandler: @escaping ((Bool, String) -> Void)) {
+    public func establishConnection(completionHandler: @escaping ((Bool, String) -> Void)) {
         let channelName = "\(UserDefaults.standard.value(forKey: "channelName") ?? "")"
         let regionName = "\(UserDefaults.standard.value(forKey: "regionName") ?? "")"
         AppData.shared.channelConfigurationModel.delegate = delegate
@@ -115,11 +114,11 @@ public class Talker {
         }
     }
     
-    func getChannelMessages(channelId: String) -> [MessageListData] {
+    public func getChannelMessages(channelId: String) -> [MessageListData] {
         return self.talker_database.getChannelMessages(channelIdValue: channelId)
     }
 
-    func initConnection() {
+    public func initConnection() {
         self.webRTCClient = AppData.shared.channelConfigurationModel.webRTCClient
         self.signalingClient = AppData.shared.channelConfigurationModel.signalingClient
         let localSenderClientID = AppData.shared.channelConfigurationModel.localSenderId
@@ -138,7 +137,7 @@ public class Talker {
     }
     
     /// Closes the WebRTC and signaling connections, and disconnects the socket.
-    func closeConnection() {
+    public func closeConnection() {
         self.webRTCClient?.shutdown()
         self.signalingClient?.disconnect()
         self.socket.disconnect()
@@ -146,7 +145,7 @@ public class Talker {
     
     /// Starts push-to-talk audio by emitting a broadcast start event and starting audio recording.
     /// Calls the completion handler with the Cahnnel Avilable status.
-    func startPttAudio(selectedChannelId: String = "",completionHandler: @escaping ((Bool) -> Void))  {
+    public func startPttAudio(selectedChannelId: String = "",completionHandler: @escaping ((Bool) -> Void))  {
         if !checkInternet() {
             self.closeConnection()
             completionHandler(false)
@@ -196,7 +195,7 @@ public class Talker {
     }
     
     /// Stops push-to-talk audio by emitting a broadcast end event and stopping audio recording.
-    func stopPttAudio(selectedChannelId: String = "") {
+    public func stopPttAudio(selectedChannelId: String = "") {
         if !checkInternet() {
             self.closeConnection()
             return
@@ -221,7 +220,7 @@ public class Talker {
     
     /// Checks if the channel is available by sending a "broadcast_start" event to the socket.
     /// - Parameter completion: A closure that is called with a boolean indicating if the channel is available.
-    func channelAvailable(completion: @escaping (Bool) -> Void) {
+    public func channelAvailable(completion: @escaping (Bool) -> Void) {
         
         let channelId = "\(UserDefaults.standard.value(forKey: "channelId") ?? "")"
         let data: [String: Any] = ["channel_id": channelId]
@@ -240,22 +239,22 @@ public class Talker {
     /// Retrieves the current user ID.
     /// Removes stored the user ID  when the app is deleted.
     /// - Returns: A string representing the current user ID.
-    func getCurrentUserId() -> String{
+    public func getCurrentUserId() -> String{
         return "\(UserDefaults.standard.value(forKey: "userId") ?? "")"
     }
     
-    func getCurrentUser() -> (String, String){
+    public func getCurrentUser() -> (String, String){
         return ("\(UserDefaults.standard.value(forKey: "userId") ?? "")", "\(UserDefaults.standard.value(forKey: "name") ?? "")")
     }
     
-    func showLoader() {
+    public func showLoader() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             KRProgressHUD.set(activityIndicatorViewColors: [UIColor.green ])
             KRProgressHUD.show()
         })
     }
     
-    func dismissLoader() {
+    public func dismissLoader() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
             KRProgressHUD.dismiss()
         })
@@ -774,7 +773,7 @@ extension Talker {
         }
     }
     
-    func create_direct_channel(_ participants: String = "", _ name: String = "" , _ isGroup: Bool = false, completionHandler: @escaping ((Bool) -> Void)) {
+    public func create_direct_channel(_ participants: String = "", _ name: String = "" , _ isGroup: Bool = false, completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -962,7 +961,7 @@ extension Talker {
         }
     }
     
-    func leaveChannel(channel_id: String, completionHandler: @escaping ((Bool) -> Void)) {
+    public func leaveChannel(channel_id: String, completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -992,7 +991,7 @@ extension Talker {
         }
     }
     
-    func sendTextMsg(channel_id: String, message: String, completionHandler: @escaping ((Bool) -> Void)) {
+    public func sendTextMsg(channel_id: String, message: String, completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -1018,7 +1017,7 @@ extension Talker {
         }
     }
     
-    func uploadImage(caption: String,image: UIImage, channel_id: String) {
+    public func uploadImage(caption: String,image: UIImage, channel_id: String) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -1047,7 +1046,7 @@ extension Talker {
         
     }
     
-    func uploadDocument(document: Data, channel_id: String) {
+    public func uploadDocument(document: Data, channel_id: String) {
         if !checkInternet() {
             print("No Internet Available")
             return
