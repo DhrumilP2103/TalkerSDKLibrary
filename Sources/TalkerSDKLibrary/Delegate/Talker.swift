@@ -16,7 +16,7 @@ import AVFoundation
 public class AppData {
     public static var shared = AppData()
     
-    internal var channelConfigurationModel = ChannelConfigurationViewModel()
+//    internal var channelConfigurationModel = ChannelConfigurationViewModel()
     public var userListData = [UserListData]()
     public var channelListData = [ChannelListData]()
     public var messageListData = [MessageListData]()
@@ -32,6 +32,7 @@ public class Talker {
     private var audioRecorder: AudioRecorder? 
     private var webRTCClient: WebRTCClient?
     private var signalingClient: SignalingClient?
+    private  var channelConfigurationModel = ChannelConfigurationViewModel()
     
     public var isFirstTimeLogin = false
     var errorCount = 0
@@ -98,8 +99,8 @@ public class Talker {
     public func establishConnection(completionHandler: @escaping ((Bool, String) -> Void)) {
         let channelName = "\(UserDefaults.standard.value(forKey: "channelName") ?? "")"
         let regionName = "\(UserDefaults.standard.value(forKey: "regionName") ?? "")"
-        AppData.shared.channelConfigurationModel.delegate = delegate
-        AppData.shared.channelConfigurationModel.connectAsRole(channelName, regionName) { status, error in
+        self.channelConfigurationModel.delegate = delegate
+        self.channelConfigurationModel.connectAsRole(channelName, regionName) { status, error in
             if status {
                 self.initConnection()
                 completionHandler(status, error)
@@ -119,9 +120,9 @@ public class Talker {
     }
 
     public func initConnection() {
-        self.webRTCClient = AppData.shared.channelConfigurationModel.webRTCClient
-        self.signalingClient = AppData.shared.channelConfigurationModel.signalingClient
-        let localSenderClientID = AppData.shared.channelConfigurationModel.localSenderId
+        self.webRTCClient = self.channelConfigurationModel.webRTCClient
+        self.signalingClient = self.channelConfigurationModel.signalingClient
+        let localSenderClientID = self.channelConfigurationModel.localSenderId
 
         let dataChannel = self.webRTCClient?.createDataChannelForAudio()
         self.audioRecorder = AudioRecorder(dataChannel: dataChannel)
