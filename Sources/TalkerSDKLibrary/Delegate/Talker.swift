@@ -13,13 +13,13 @@ import AWSMobileClientXCF
 import SocketIO
 import AVFoundation
 
-class AppData {
+public class AppData {
     static var shared = AppData()
     
     var channelConfigurationModel = ChannelConfigurationViewModel()
-    var userListData = [UserListData]()
-    var channelListData = [ChannelListData]()
-    var messageListData = [MessageListData]()
+    public var userListData = [UserListData]()
+    public var channelListData = [ChannelListData]()
+    public var messageListData = [MessageListData]()
     
     private init() {} // Prevents others from creating instances
 }
