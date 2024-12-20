@@ -14,7 +14,7 @@ import SocketIO
 import AVFoundation
 
 public class AppData {
-//    public static var shared = AppData()
+    public static var shared = AppData()
     
 //    internal var channelConfigurationModel = ChannelConfigurationViewModel()
     public var userListData = [UserListData]()
@@ -55,8 +55,8 @@ public class Talker {
                 self.awsLogin() { status, error in
                     if status {
                         print("The user is signedIn")
-                        AppData().userListData = self.talker_database.getUsersList()
-                        AppData().channelListData = self.talker_database.getChannelsList()
+                        AppData.shared.userListData = self.talker_database.getUsersList()
+                        AppData.shared.channelListData = self.talker_database.getChannelsList()
                         completionHandler(status, error)
                     } else {
                         completionHandler(false, error)
@@ -75,8 +75,8 @@ public class Talker {
             if status {
                 self.awsLogin() { status, error in
                     if status {
-                        AppData().userListData = self.talker_database.getUsersList()
-                        AppData().channelListData = self.talker_database.getChannelsList()
+                        AppData.shared.userListData = self.talker_database.getUsersList()
+                        AppData.shared.channelListData = self.talker_database.getChannelsList()
                         completionHandler(status, error)
                     } else {
                         completionHandler(status, error)
@@ -732,8 +732,8 @@ public extension Talker {
                             }
                         completionHandler(true)
                         let data = self.talker_database.getChannelsList()
-                        AppData().userListData = self.talker_database.getUsersList()
-                        AppData().channelListData = self.talker_database.getChannelsList()
+                        AppData.shared.userListData = self.talker_database.getUsersList()
+                        AppData.shared.channelListData = self.talker_database.getChannelsList()
 //                        }
                     }
 
@@ -766,8 +766,8 @@ public extension Talker {
                             }
                         completionHandler(true)
 //                        }
-                        AppData().userListData = self.talker_database.getUsersList()
-                        AppData().channelListData = self.talker_database.getChannelsList()
+                        AppData.shared.userListData = self.talker_database.getUsersList()
+                        AppData.shared.channelListData = self.talker_database.getChannelsList()
                     }
                 } else if statusCode == 500 {
                     completionHandler(false)
@@ -816,8 +816,8 @@ public extension Talker {
         parameter["channel_id"] = channel_id as AnyObject
         parameter["new_name"] = new_name as AnyObject
         
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().EditChannelDataAPI(parameter: parameter) { data, statusCode, success in
@@ -848,8 +848,8 @@ public extension Talker {
         parameter["channel_id"] = channel_id as AnyObject
         parameter["new_participants"] = new_participants as AnyObject
         
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().EditChannelDataAPI(parameter: parameter) { data, statusCode, success in
@@ -880,8 +880,8 @@ public extension Talker {
         parameter["channel_id"] = channel_id as AnyObject
         parameter["delete_participant"] = delete_participant as AnyObject
         
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().EditChannelDataAPI(parameter: parameter) { data, statusCode, success in
@@ -912,8 +912,8 @@ public extension Talker {
         parameter["channel_id"] = channel_id as AnyObject
         parameter["new_admin"] = new_admin as AnyObject
         
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().EditChannelDataAPI(parameter: parameter) { data, statusCode, success in
@@ -944,8 +944,8 @@ public extension Talker {
         parameter["channel_id"] = channel_id as AnyObject
         parameter["admin_removed"] = admin_removed as AnyObject
         
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().EditChannelDataAPI(parameter: parameter) { data, statusCode, success in
@@ -974,8 +974,8 @@ public extension Talker {
         
 //        var parameter : [String : AnyObject] = [String : AnyObject]()
 //        parameter["channel_id"] = channel_id as AnyObject
-        let data = AppData().channelListData.filter { $0.channelType == "group" }
-        let genralData = AppData().channelListData.filter { $0.channelType == "workspace_general" }
+        let data = AppData.shared.channelListData.filter { $0.channelType == "group" }
+        let genralData = AppData.shared.channelListData.filter { $0.channelType == "workspace_general" }
         
         if data.contains(where: { $0.channelId == channel_id }) && !genralData.contains(where: { $0.channelId == channel_id }) {
             APIService().leaveChannelAPI(channel_id: channel_id) { data, statusCode, success in
