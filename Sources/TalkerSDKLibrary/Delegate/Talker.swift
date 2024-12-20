@@ -260,6 +260,9 @@ public class Talker {
             KRProgressHUD.dismiss()
         })
     }
+    public init() {
+            // Initialization code, if needed
+        }
 }
 
 // Only Private Functions
