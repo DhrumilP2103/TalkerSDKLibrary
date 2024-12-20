@@ -14,7 +14,7 @@ import SocketIO
 import AVFoundation
 
 public class AppData {
-    static var shared = AppData()
+    public static var shared = AppData()
     
     var channelConfigurationModel = ChannelConfigurationViewModel()
     public var userListData = [UserListData]()
@@ -801,7 +801,7 @@ extension Talker {
         }
     }
     
-    func Update_channel_name(channel_id: String = "" ,new_name: String = "",completionHandler: @escaping ((Bool) -> Void)) {
+    public func Update_channel_name(channel_id: String = "" ,new_name: String = "",completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -833,7 +833,7 @@ extension Talker {
         }
     }
     
-    func add_channel_participant(channel_id: String = "" , new_participants: String = "", completionHandler: @escaping ((Bool) -> Void)) {
+    public func add_channel_participant(channel_id: String = "" , new_participants: String = "", completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -865,7 +865,7 @@ extension Talker {
         }
     }
     
-    func remove_channel_participant(channel_id: String = "" , delete_participant: String = "", completionHandler: @escaping ((Bool) -> Void)) {
+    public func remove_channel_participant(channel_id: String = "" , delete_participant: String = "", completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -897,7 +897,7 @@ extension Talker {
         }
     }
     
-    func add_new_admin(channel_id: String = "" , new_admin: String = "", completionHandler: @escaping ((Bool) -> Void)) {
+    public func add_new_admin(channel_id: String = "" , new_admin: String = "", completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
@@ -929,7 +929,7 @@ extension Talker {
         }
     }
     
-    func admin_removed(channel_id: String = "" , admin_removed: String = "", completionHandler: @escaping ((Bool) -> Void)) {
+    public func admin_removed(channel_id: String = "" , admin_removed: String = "", completionHandler: @escaping ((Bool) -> Void)) {
         if !checkInternet() {
             print("No Internet Available")
             return
