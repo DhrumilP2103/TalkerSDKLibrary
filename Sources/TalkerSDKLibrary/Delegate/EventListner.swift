@@ -47,7 +47,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
     @Published public var onAdminAdded: ((String) -> ())?
     @Published public var onAdminRemoved: ((String) -> ())?
     @Published public var currentPttAudio: ((_ sender_id: String, _ channel_id: String, _ channel_name: String, _ sender_name: String) -> ())?
-    @Published var onNewSdkUser: ((_ user_name: String, _ user_id: String)->())?
+    @Published public var onNewSdkUser: ((_ user_name: String, _ user_id: String)->())?
     
     public var talker_database = Talker_Database()
     
