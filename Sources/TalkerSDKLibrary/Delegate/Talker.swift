@@ -25,7 +25,7 @@ class AppData {
     private init() {} // Prevents others from creating instances
 }
 
-class Talker {
+public class Talker {
     private var socket: SocketIOClient!
     private var manager: SocketManager!
     private var audioPlayer: AVPlayer = AVPlayer()

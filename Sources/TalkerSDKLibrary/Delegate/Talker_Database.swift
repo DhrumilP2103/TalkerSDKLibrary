@@ -1,7 +1,7 @@
 import Foundation
 import SQLite
 
-class Talker_Database {
+public class Talker_Database {
     
     // SQLite instance
     private var db: Connection!
@@ -434,10 +434,10 @@ extension Talker_Database {
     
 }
 
-class UserListData: Identifiable {
+public class UserListData: Identifiable {
     
-    var name: String?
-    var userId: String?
+    public var name: String?
+    public var userId: String?
     
     init(name: String? = nil, userId: String? = nil) {
         self.name = name
@@ -445,12 +445,12 @@ class UserListData: Identifiable {
     }
 }
 
-class ChannelListData: Identifiable {
+public class ChannelListData: Identifiable {
 
-    var channelType: String?
-    var channelId: String?
-    var participants: String? // Store as JSON string
-    var groupName: String?
+    public var channelType: String?
+    public var channelId: String?
+    public var participants: String? // Store as JSON string
+    public var groupName: String?
     
     init(channelType: String? = nil, channelId: String? = nil, participants: String? = nil, groupName: String? = nil) {
         self.channelType = channelType
@@ -527,16 +527,16 @@ extension Talker_Database {
     }
 }
 
-class MessageListData: Identifiable {
+public class MessageListData: Identifiable {
 
-    var id: String?
-    var senderId: String?
-    var senderName: String?
-    var sentAt: String?
-    var messageChannelId: String?
-    var messageChannelName: String?
-    var description: String?
-    var attachments: String? // Store as JSON string
+    public var id: String?
+    public var senderId: String?
+    public var senderName: String?
+    public var sentAt: String?
+    public var messageChannelId: String?
+    public var messageChannelName: String?
+    public var description: String?
+    public var attachments: String? // Store as JSON string
     
     init(id: String? = nil, senderId: String? = nil, senderName: String? = nil, sentAt: String? = nil, messageChannelId: String? = nil, messageChannelName: String? = nil, description: String? = nil, attachments: String? = nil) {
         self.id = id
