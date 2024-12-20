@@ -35,7 +35,7 @@ public class Talker {
     
     public var isFirstTimeLogin = false
     var errorCount = 0
-    var delegate: EventListnerDelegate?
+    public var delegate: EventListnerDelegate?
     var talker_database = Talker_Database()
     /// Registers a new user with the specified name.
     /// Calls the completion handler with the registration status and any error encountered.

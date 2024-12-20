@@ -7,104 +7,63 @@
 
 import Foundation
 
-enum AudioStatus : String {
-  case Connecting = "Connecting"
-  case Busy = "Busy"
-  case Sending = "Sending"
-  case Stopped = "Stopped"
-  
+public enum AudioStatus : String {
+    case Connecting = "Connecting"
+    case Busy = "Busy"
+    case Sending = "Sending"
+    case Stopped = "Stopped"
+    
 }
 
-enum ServerConnectionState: String {
+public enum ServerConnectionState: String {
     case Success = "Success"
     case Failure = "Failure"
     case Closed = "Closed"
 }
 
 /// A protocol for listening to various events in the application.
-protocol EventListnerDelegate {
-    /// Called when the audio status changes.
-    /// - Parameter audioStatus: The new audio status as an `AudioStatus` enum value.
-    /// This method is triggered whenever there is a change in the audio status,
-    /// allowing listeners to handle updates or changes accordingly.
+public protocol EventListnerDelegate {
     func onAudioStatusChange(audioStatus: AudioStatus)
-    
-    /// Called when the server connection state changes.
-    /// - Parameters:
-    ///   - serverConnectionState: The new state of the server connection as a `ServerConnectionState` enum value.
-    ///   - message: An optional message providing additional information about the connection state change.
-    /// This method is triggered whenever there is a change in the server connection status,
-    /// allowing listeners to take appropriate actions based on the new connection state.
     func onServerConnectionChange(serverConnectionState: ServerConnectionState, message: String)
-    
-    /// Called when a new channel is created.
-    /// - Parameter data: An array of data related to the newly created channel.
-    /// This method is triggered when a new channel is successfully created,
-    /// allowing listeners to process or respond to the creation event.
-    func onNewChannelCreate(data : [Any])
-    
-    /// Called when an existing channel is updated.
-    /// - Parameter data: An array of data related to the updated channel.
-    /// This method is triggered whenever there are updates to an existing channel,
-    /// allowing listeners to handle or respond to the changes accordingly.
-    func onChannelUpdated(data : [Any])
-    
-    /// Called when the user is removed from a channel.
-    /// - Parameter data: An array of data related to the removal from the channel.
-    /// This method is triggered when the user is removed from a channel,
-    /// allowing listeners to take necessary actions such as updating the UI or notifying the user.
-    func onRemovedUserFromChannel(data : [Any])
-    
-    /// Called when the user is added to a channel.
-    /// - Parameter data: An array of data related to the addition to the channel.
-    /// This method is triggered when the user is added to a channel,
-    /// allowing listeners to update the UI or perform actions based on the new channel membership.
-    func onAddedUserInChannel(data : [Any])
-    
-    /// Called when an admin is added to a channel.
-    /// - Parameter data: An array of data related to the new admin.
-    /// This method is triggered when a new admin is added to a channel,
-    /// allowing listeners to take appropriate actions or update the channel information.
-    func onAdminAdded(data : [Any])
-    
-    /// Called when an admin is removed from a channel.
-    /// - Parameter data: An array of data related to the removed admin.
-    /// This method is triggered when an admin is removed from a channel,
-    /// allowing listeners to update the channel information or notify users as needed.
-    func onAdminRemoved(data : [Any])
-    func onNewMessageReceived(data : [Any])
-//    func onRemovedChannel(data : [Any])
-    
+    func onNewChannelCreate(data: [Any])
+    func onChannelUpdated(data: [Any])
+    func onRemovedUserFromChannel(data: [Any])
+    func onAddedUserInChannel(data: [Any])
+    func onAdminAdded(data: [Any])
+    func onAdminRemoved(data: [Any])
+    func onNewMessageReceived(data: [Any])
     func currentPttAudio(sender_id: String, channel_id: String, channel_name: String, sender_name: String)
 }
 
-class EventListner: ObservableObject, EventListnerDelegate {
+public class EventListner: ObservableObject, EventListnerDelegate {
     
-    @Published var onAudioStatus: ((AudioStatus)->())?
-    @Published var onServerConnection: ((ServerConnectionState)->())?
-    @Published var onNewChannel: ((_ channelId: String, _ channelType: String, _ participants: [GetParticipants], _ groupName: String)->())?
-    @Published var onChannelUpdated: ((_ new_name: String)->())?
-    @Published var onRemovedUserFromChannel: ((String)->())?
-    @Published var onAddedUserInChannel: (([[String: Any]])->())?
-    @Published var onAdminAdded: ((String)->())?
-    @Published var onAdminRemoved: ((String)->())?
-    @Published var currentPttAudio: ((_ sender_id: String, _ channel_id: String, _ channel_name: String, _ sender_name: String)->())?
+    @Published public var onAudioStatus: ((AudioStatus) -> ())?
+    @Published public var onServerConnection: ((ServerConnectionState) -> ())?
+    @Published public var onNewChannel: ((_ channelId: String, _ channelType: String, _ participants: [GetParticipants], _ groupName: String) -> ())?
+    @Published public var onChannelUpdated: ((_ new_name: String) -> ())?
+    @Published public var onRemovedUserFromChannel: ((String) -> ())?
+    @Published public var onAddedUserInChannel: (([[String: Any]]) -> ())?
+    @Published public var onAdminAdded: ((String) -> ())?
+    @Published public var onAdminRemoved: ((String) -> ())?
+    @Published public var currentPttAudio: ((_ sender_id: String, _ channel_id: String, _ channel_name: String, _ sender_name: String) -> ())?
     
-    var talker_database = Talker_Database()
+    public var talker_database = Talker_Database()
     
-    func currentPttAudio(sender_id: String, channel_id: String, channel_name: String, sender_name: String) {
+    public init() {}
+    
+    public func currentPttAudio(sender_id: String, channel_id: String, channel_name: String, sender_name: String) {
         self.currentPttAudio?(sender_id, channel_id, channel_name, sender_name)
     }
     
-    func onAudioStatusChange(audioStatus: AudioStatus) {
+    public func onAudioStatusChange(audioStatus: AudioStatus) {
         self.onAudioStatus?(audioStatus)
     }
     
-    func onServerConnectionChange(serverConnectionState: ServerConnectionState, message: String) {
+    public func onServerConnectionChange(serverConnectionState: ServerConnectionState, message: String) {
         self.onServerConnection?(serverConnectionState)
     }
-   
-    func onNewChannelCreate(data : [Any]) {
+    
+    public func onNewChannelCreate(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
@@ -135,7 +94,7 @@ class EventListner: ObservableObject, EventListnerDelegate {
 
     }
     
-    func onNewMessageReceived(data : [Any]) {
+    public func onNewMessageReceived(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
@@ -174,8 +133,8 @@ class EventListner: ObservableObject, EventListnerDelegate {
 
     }
     
-    func onChannelUpdated(data : [Any]) {
-        if data.count > 0{
+    public func onChannelUpdated(data: [Any]) {
+        if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
             let channel_id : String = dataObj?["channel_id"] as? String ?? ""
@@ -187,7 +146,7 @@ class EventListner: ObservableObject, EventListnerDelegate {
         }
     }
     
-    func onRemovedUserFromChannel(data : [Any]) {
+    public func onRemovedUserFromChannel(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
@@ -204,8 +163,8 @@ class EventListner: ObservableObject, EventListnerDelegate {
             AppData.shared.channelListData = talker_database.getChannelsList()
         }
     }
-        
-    func onAddedUserInChannel(data : [Any]) {
+    
+    public func onAddedUserInChannel(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             // Decode JSON string to dictionary
@@ -227,7 +186,7 @@ class EventListner: ObservableObject, EventListnerDelegate {
         
     }
     
-    func onAdminAdded(data: [Any]) {
+    public func onAdminAdded(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
@@ -240,7 +199,7 @@ class EventListner: ObservableObject, EventListnerDelegate {
         }
     }
     
-    func onAdminRemoved(data: [Any]) {
+    public func onAdminRemoved(data: [Any]) {
         if data.count > 0 {
             let datString = data[0] as? String
             let dataObj = datString?.decodeJSONString()
