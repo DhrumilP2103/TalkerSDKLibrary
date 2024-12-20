@@ -16,7 +16,7 @@ import AVFoundation
 public class AppData {
     public static var shared = AppData()
     
-    var channelConfigurationModel = ChannelConfigurationViewModel()
+    internal var channelConfigurationModel = ChannelConfigurationViewModel()
     public var userListData = [UserListData]()
     public var channelListData = [ChannelListData]()
     public var messageListData = [MessageListData]()
