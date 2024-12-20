@@ -62,7 +62,7 @@ public enum KRProgressHUDStyle {
 }
 
 /// KRProgressHUD is a beautiful and easy-to-use progress HUD.
-public final class KRProgressHUD {
+internal final class KRProgressHUD {
     public typealias CompletionHandler = () -> Void
 
     public class KRProgressHUDAppearance {

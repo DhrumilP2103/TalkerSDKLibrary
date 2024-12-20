@@ -1,6 +1,6 @@
 import WebRTC
 
-public class Message: Codable {
+internal class Message: Codable {
     private var action: String
     private var recipientClientId: String?
     private var senderClientId: String?

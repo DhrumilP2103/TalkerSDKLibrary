@@ -1,27 +1,46 @@
-// swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
+// swift-tools-version: 5.6
 import PackageDescription
 
 let package = Package(
     name: "TalkerSDKLibrary",
+    platforms: [
+        .iOS(.v14)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "TalkerSDKLibrary",
-            targets: ["TalkerSDKLibrary"]),
+            targets: ["TalkerSDKLibrary"]
+        ),
     ],
     dependencies: [
-        // Add Alamofire as a dependency
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.10.1"),
+        .package(url: "https://github.com/socketio/socket.io-client-swift.git", from: "16.0.0"),
+        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.13.3"),
+        .package(url: "https://github.com/aws-amplify/aws-sdk-ios-spm", .upToNextMajor(from: "2.38.1")),
+//        .package(url: "https://github.com/stasel/WebRTC-iOS.git", from: Version),
+//        .package(url: "https://github.com/aws-amplify/aws-sdk-ios", from: "2.37.2"),
+            .package(url: "https://github.com/stasel/WebRTC.git", .upToNextMajor(from: "130.0.0")),
+//        .package(url: "https://github.com/aws-amplify/aws-sdk-ios/tree/main/AWSAuthSDK/Sources/AWSMobileClient", from: "2.37.2"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "TalkerSDKLibrary",
             dependencies: [
-                "Alamofire" // Linking Alamofire to your target
+                "Alamofire",
+                .product(name: "SocketIO", package: "socket.io-client-swift"),
+                .product(name: "SQLite", package: "SQLite.swift"),
+                .product(name: "WebRTC", package: "WebRTC"),
+                .product(name: "AWSCore", package: "aws-sdk-ios-spm"),
+                .product(name: "AWSCognitoIdentityProvider", package: "aws-sdk-ios-spm"),
+                .product(name: "AWSKinesisVideo", package: "aws-sdk-ios-spm"),
+                .product(name: "AWSKinesisVideoSignaling", package: "aws-sdk-ios-spm"),
+                .product(name: "AWSMobileClientXCF", package: "aws-sdk-ios-spm")
+//                .product(name: "WebRTC", package: "WebRTC-iOS"),
+//                .product(name: "AWSCognitoIdentityProvider", package: "aws-sdk-ios"),
+//                .product(name: "AWSKinesisVideo", package: "aws-sdk-ios"),
+//                .product(name: "AWSKinesisVideoSignaling", package: "aws-sdk-ios"),
+//                .product(name: "AWSCognito", package: "aws-sdk-ios"),
+//                .product(name: "AWSCore", package: "aws-sdk-ios"), // Added AWSCore
             ]
         ),
     ]

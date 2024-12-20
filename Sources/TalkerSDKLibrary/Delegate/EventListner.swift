@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import TalkerSDKLibrary
 
 enum AudioStatus : String {
   case Connecting = "Connecting"

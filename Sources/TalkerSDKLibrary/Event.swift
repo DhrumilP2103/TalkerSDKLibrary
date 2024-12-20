@@ -1,7 +1,7 @@
 import Foundation
 import WebRTC
 
-public class Event {
+internal class Event {
     public class func parseEvent(event: String) -> Message? {
         do {
             //            print("Event = \(event)")

@@ -8,7 +8,7 @@
 import UIKit
 import Alamofire
 
-public class APIServiceExample {
+public class APIService {
     public init(){}
     public func getURLRequest(endPoint:String, isUpdateApn: Bool = false) -> URLRequest{
         var request = URLRequest(url: URL(string: "\(baseUrl + endPoint)")!)
@@ -382,7 +382,7 @@ public class APIServiceExample {
     }
 }
 
-extension APIServiceExample {
+extension APIService {
     public func makePostHeaderImageCall(url: String, parameters: [String: Any], isVideo: Bool = false, completionHandler: @escaping @Sendable(AnyObject?, NSError?) -> ()) {
 
         let token : String = UserDefaults.standard.value(forKey: "user_auth_token") as! String

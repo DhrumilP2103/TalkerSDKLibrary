@@ -46,7 +46,7 @@ final class WebRTCClient: NSObject {
         config.tcpCandidatePolicy = .enabled
 
         let constraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        peerConnection = WebRTCClient.factory.peerConnection(with: config, constraints: constraints, delegate: nil)
+        peerConnection = WebRTCClient.factory.peerConnection(with: config, constraints: constraints, delegate: nil)!
 
         super.init()
 //        configureAudioSession()
@@ -65,8 +65,8 @@ final class WebRTCClient: NSObject {
             audioSession.lockForConfiguration()
             // NOTE : Can remove .defaultToSpeaker when not required.
             try
-            audioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue, with:[.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP, .duckOthers, .allowAirPlay])
-            try audioSession.setMode(AVAudioSession.Mode.default.rawValue)
+            audioSession.setCategory(AVAudioSession.Category(rawValue: AVAudioSession.Category.playAndRecord.rawValue), with:[.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP, .duckOthers, .allowAirPlay])
+            try audioSession.setMode(AVAudioSession.Mode(rawValue: AVAudioSession.Mode.default.rawValue))
             // NOTE : Can remove the following line when speaker not required.
             try audioSession.overrideOutputAudioPort(.speaker)
             

@@ -7,8 +7,9 @@
 
 import Foundation
 import AWSCore
+import AWSAuthCore
 import AWSCognitoIdentityProvider
-import AWSMobileClient
+import AWSMobileClientXCF
 import SocketIO
 import AVFoundation
 import TalkerSDKLibrary

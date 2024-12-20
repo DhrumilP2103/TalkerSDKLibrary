@@ -11,7 +11,7 @@ protocol SignalClientDelegate: AnyObject {
     func signalClient(_ signalClient: SignalingClient, senderClientId: String, didReceiveCandidate candidate: RTCIceCandidate)
 }
 
-final class SignalingClient {
+internal class SignalingClient {
     private let socket: WebSocket
     private let encoder = JSONEncoder()
     weak var delegate: SignalClientDelegate?

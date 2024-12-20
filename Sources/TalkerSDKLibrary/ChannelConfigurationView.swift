@@ -10,7 +10,7 @@ import SwiftUI
 import WebRTC
 import AWSCore
 import AWSKinesisVideo
-import AWSMobileClient
+import AWSMobileClientXCF
 import AWSKinesisVideoSignaling
 
 
