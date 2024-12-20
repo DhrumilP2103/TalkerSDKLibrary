@@ -21,7 +21,7 @@ public class AppData {
     public var channelListData = [ChannelListData]()
     public var messageListData = [MessageListData]()
     
-    public init() {} // Prevents others from creating instances
+//    public init() {} // Prevents others from creating instances
 }
 
 public class Talker {
