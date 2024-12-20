@@ -67,7 +67,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
                 self.talker_database.addUser(nameValue: name, userIdValue: user_id)
 //            }
             
-            AppData.shared.userListData = talker_database.getUsersList()
+            AppData().userListData = talker_database.getUsersList()
             self.onNewSdkUser?(name, user_id)
         }
         
@@ -93,7 +93,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
             let channel_type: String = dataObj?["channel_type"] as? String ?? ""
             let participants = dataObj?["participants"] as? [[String: Any]] ?? []
             let group_name: String = dataObj?["group_name"] as? String ?? ""
-            let storedChannelId = AppData.shared.channelListData.filter { $0.channelId == channel_id }
+            let storedChannelId = AppData().channelListData.filter { $0.channelId == channel_id }
             
             if storedChannelId.count == 0 {
                 var userId = ""
@@ -109,7 +109,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
                     let jsonString = String(data: jsonData, encoding: .utf8)
                     self.talker_database.addChannel(channelTypeValue: channel_type, channelIdValue: channel_id, participantsValue: jsonString ?? "", groupNameValue: group_name, pttModeValue: "")
                     self.onNewChannel?(channel_id, channel_type, participantObjects, group_name)
-                    AppData.shared.channelListData = talker_database.getChannelsList()
+                    AppData().channelListData = talker_database.getChannelsList()
                 }
             }
         }
@@ -164,7 +164,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
             
             self.talker_database.updateChannelName(channelIdValue: channel_id, newGroupName: new_name)
             self.onChannelUpdated?(new_name)
-            AppData.shared.channelListData = talker_database.getChannelsList()
+            AppData().channelListData = talker_database.getChannelsList()
         }
     }
     
@@ -182,7 +182,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
                 self.talker_database.removeChannel(channelId: channel_id)
             }
             self.onRemovedUserFromChannel?(removed_participant)
-            AppData.shared.channelListData = talker_database.getChannelsList()
+            AppData().channelListData = talker_database.getChannelsList()
         }
     }
     
@@ -203,7 +203,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
             }
             
             self.onAddedUserInChannel?(newParticipants)
-            AppData.shared.channelListData = talker_database.getChannelsList()
+            AppData().channelListData = talker_database.getChannelsList()
         }
         
     }
@@ -217,7 +217,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
           
             self.talker_database.addAdmin(channelIdValue: channel_id, participantIdToPromote: new_admin)
             self.onAdminAdded?(new_admin)
-            AppData.shared.channelListData = talker_database.getChannelsList()
+            AppData().channelListData = talker_database.getChannelsList()
         }
     }
     
@@ -229,7 +229,7 @@ public class EventListner: ObservableObject, EventListnerDelegate {
             let admin_removed = dataObj?["admin_removed"] as? String ?? ""
             self.talker_database.removeAdmin(channelIdValue: channel_id, participantIdToDemote: admin_removed)
             self.onAdminRemoved?(admin_removed)
-            AppData.shared.channelListData = talker_database.getChannelsList()
+            AppData().channelListData = talker_database.getChannelsList()
         }
     }
     
