@@ -32,6 +32,7 @@ public protocol EventListnerDelegate {
     func onAdminAdded(data: [Any])
     func onAdminRemoved(data: [Any])
     func onNewMessageReceived(data: [Any])
+    func onNewSdkUser(data : [Any])
     func currentPttAudio(sender_id: String, channel_id: String, channel_name: String, sender_name: String)
 }
 
@@ -46,10 +47,31 @@ public class EventListner: ObservableObject, EventListnerDelegate {
     @Published public var onAdminAdded: ((String) -> ())?
     @Published public var onAdminRemoved: ((String) -> ())?
     @Published public var currentPttAudio: ((_ sender_id: String, _ channel_id: String, _ channel_name: String, _ sender_name: String) -> ())?
+    @Published var onNewSdkUser: ((_ user_name: String, _ user_id: String)->())?
     
     public var talker_database = Talker_Database()
     
     public init() {}
+    public func onNewSdkUser(data: [Any]) {
+        if data.count > 0 {
+            let datString = data[0] as? String
+            // Decode JSON string to dictionary
+            let dataObj = datString?.decodeJSONString()
+            let user_id: String = dataObj?["user_id"] as? String ?? ""
+            let name = dataObj?["name"] as? String ?? ""
+        
+            
+            // Add each new participant to the channel
+//            for participant in name {
+//                self.talker_database.addParticipant(channelIdValue: channel_id, newParticipant: participant)
+                self.talker_database.addUser(nameValue: name, userIdValue: user_id)
+//            }
+            
+            AppData.shared.userListData = talker_database.getUsersList()
+            self.onNewSdkUser?(name, user_id)
+        }
+        
+    }
     
     public func currentPttAudio(sender_id: String, channel_id: String, channel_name: String, sender_name: String) {
         self.currentPttAudio?(sender_id, channel_id, channel_name, sender_name)

@@ -361,6 +361,7 @@ public extension Talker {
         self.socket.on("new_sdk_user") { data, ack in
             ack.with()
             print("new_sdk_user:::", data)
+            self.delegate?.onNewSdkUser(data: data)
         }
         
         self.socket.on("message") { data, ack in
