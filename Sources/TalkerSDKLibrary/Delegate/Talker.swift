@@ -262,7 +262,7 @@ public class Talker {
 }
 
 // Only Private Functions
-extension Talker {
+public extension Talker {
     /// Connects to the socket with the specified configuration and sets up event listeners for broadcast start and end.
     private func connectSocket() {
         let config: SocketIOClientConfiguration = [
@@ -527,7 +527,7 @@ extension Talker {
 }
 
 // API Call
-extension Talker {
+public extension Talker {
     
     /// Creates a new user on the server.
     /// - Parameters:
